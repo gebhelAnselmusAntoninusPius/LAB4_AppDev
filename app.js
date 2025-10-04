@@ -225,7 +225,7 @@ function addToCartFromForm(){
   let msg = cart.add(product, qty);
 
   console.log(msg);
-  document.getElementById("cartOutput").innerHTML = msg;
+  document.getElementById("cartMessage").innerHTML = msg;
   
   renderList(); 
 }
