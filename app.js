@@ -215,7 +215,7 @@ function addToCartFromForm(){
   }
 
   //we use .find() to locate the item object that matches the code.
-  let product = items.find(i => i.itemCode === code);
+  let product =items.find(i => i.itemCode === code);
 
   if (!product) {
     alert("Item code not found in inventory.");
