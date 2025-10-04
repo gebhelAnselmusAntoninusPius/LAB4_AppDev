@@ -49,7 +49,10 @@
 
   <hr>
   <h3>Cart</h3>
-  <button onclick="testAddToCart()">Add First Item to Cart</button>
+  <input type="text" id="cartItemCode" placeholder="Enter Item Code">
+  <input type="number" id="cartQuantity" placeholder="Quantity">
+  <button onclick="addToCartFromForm()">Add to Cart</button>
+  <p id="cartOutput"></p>
   <button onclick="showCheckout()">Checkout</button>
   <div id="cartOutput"></div>
 
