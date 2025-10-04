@@ -40,8 +40,8 @@
   <form id="itemForm">
     Item Code: <input type="text" id="itemCode" required><br><br>
     Item Name: <input type="text" id="itemName" required><br><br>
-    Quantity: <input type="number" id="quantity" required><br><br>
-    Price: <input type="number" id="price" required><br><br>
+    Quantity: <input type="text" id="quantity" required><br><br>
+    Price: <input type="text" id="price" required><br><br>
     <button type="button" onclick="addItem()">Add Item</button>
     <button type="button" onclick="updateItemFromForm()">Update Item</button>
   </form>
@@ -50,7 +50,7 @@
   <hr>
   <h3>Cart</h3>
   <input type="text" id="cartItemCode" placeholder="Enter Item Code">
-  <input type="number" id="cartQuantity" placeholder="Quantity">
+  <input type="text" id="cartQuantity" placeholder="Quantity">
   <button onclick="addToCartFromForm()">Add to Cart</button>
   <p id="cartOutput"></p>
   <button onclick="showCheckout()">Checkout</button>

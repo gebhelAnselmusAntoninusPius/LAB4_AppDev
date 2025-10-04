@@ -1,5 +1,3 @@
-//product inventory system app.js
-
 let items = []; //global array for inventory
 
 function addItem(){
@@ -9,8 +7,13 @@ function addItem(){
   let price = parseFloat(document.getElementById("price").value);
 
   //validate form inputs
-  if (!code || !name || isNaN(qty) || isNaN(price)){
+  if (!code ||!name){
     alert("please fill all fields");
+    return;
+  }
+
+  if(isNaN(qty) || isNaN(price)){
+    alert("please enter a valid input")
     return;
   }
 
@@ -26,6 +29,7 @@ function addItem(){
   items.push(itemObj);
 
   console.log("added:", itemObj);
+  updateSum();
   renderList();
   document.getElementById("itemForm").reset();
 }
@@ -44,6 +48,7 @@ function updateItemFromForm(){
     if (!isNaN(price)) item.price = price;
 
     console.log("updated:", item);
+    updateSum();
     renderList();
     document.getElementById("itemForm").reset();
   } else {
@@ -51,10 +56,21 @@ function updateItemFromForm(){
   }
 }
 
+function updateSum(itemArr = items){
+  let totalQty = items.reduce((sum, i) => sum + i.quantity, 0);
+  let totalVal = items.reduce((sum, i) => sum + (i.quantity * i.price), 0);
+
+  document.getElementById("summary").innerHTML = items.length > 0
+  ? ("Inventory Summary:<br>Total **Unique** Items: " + items.length + "<br>Total **Stock** Quantity: "
+  + totalQty + "<br>Total Inventory Value: **PHP " + totalVal.toFixed(2) + "**"): "No inventory data yet";
+}
+
+
 function deleteItem(code){
   if (confirm("are you sure you want to delete item " + code + "?")) {
     items = items.filter(i => i.itemCode !== code);
     console.log("deleted:", code);
+    updateSum();
     renderList();
   }
 }
@@ -80,7 +96,7 @@ function sortByName(){
 
 function sortByPrice(){
   items.sort((a, b) =>
-    sortPriceAsc ? a.price - b.price : b.price - a.price
+    (sortPriceAsc) ? (a.price - b.price) : (b.price - a.price)
   );
   sortPriceAsc = !sortPriceAsc;
   console.log("sorted by price:", items);
@@ -105,7 +121,7 @@ function searchItems(keyword){
 
 let tableView = true;
 
-function toggleView() {
+function toggleView(){
   let listDiv = document.getElementById("list");
   if (listDiv.dataset.view === "table") {
     //switch to card view
@@ -172,12 +188,21 @@ let cart = {
     //compute total, tax, and discount
     let total = this.items.reduce((sum, i) => sum + i.qty * i.price, 0);
     let tax = total * 0.12;
+    let subtotalWithTax = total+tax;
+    let discountApplied = 0;
     let final = total + tax;
 
     if (final > 5000){
-      final *= 0.9;
+      discountApplied = final * 0.1;
+      final -= discountApplied;
     }
-    return "checkout summary: " + this.items.length + " item(s). total=PHP " + final;
+
+    return `Checkout Report (Items: ${this.items.length}):<br>
+    Subtotal: PHP ${total.toFixed(2)}<br>
+    Tax (12%): PHP ${tax.toFixed(2)}<br>
+    Total w/ Tax: PHP ${subtotalWithTax.toFixed(2)}<br>
+    Discount Applied: PHP ${discountApplied.toFixed(2)}<br>
+    Final Amount Due: PHP ${final.toFixed(2)}`;
   }
 };
 
@@ -208,9 +233,9 @@ function addToCartFromForm(){
   renderList(); 
 }
 
-
 function showCheckout(){
   let report = cart.checkout();
   console.log(report);
   document.getElementById("cartOutput").innerHTML = report;
+  updateSum();
 }
