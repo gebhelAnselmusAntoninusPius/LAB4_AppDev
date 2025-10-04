@@ -61,8 +61,8 @@ function updateSum(itemArr = items){
   let totalVal = items.reduce((sum, i) => sum + (i.quantity * i.price), 0);
 
   document.getElementById("summary").innerHTML = items.length > 0
-  ? ("Inventory Summary:<br>Total **Unique** Items: " + items.length + "<br>Total **Stock** Quantity: "
-  + totalQty + "<br>Total Inventory Value: **PHP " + totalVal.toFixed(2) + "**"): "No inventory data yet";
+  ? ("Inventory Summary:<br>Total Unique Items: " + items.length + "<br>Total Stock Quantity: "
+  + totalQty + "<br>Total Inventory Value: PHP " + totalVal.toFixed(2) + ""): "No inventory data yet";
 }
 
 
@@ -149,12 +149,9 @@ function renderList(arr = items) {
     arr.forEach(i => {
       //highlight zero stock in red
       let style = i.quantity === 0 ? " style='color:red;'" : "";
-      output += `<tr${style}>
-                   <td>${i.itemCode}</td>
-                   <td>${i.itemName}</td>
-                   <td>${i.quantity}</td>
-                   <td>${i.price}</td>
-                   <td><button onclick="deleteItem('${i.itemCode}')">delete</button></td>
+      output += `<tr${style}><td>${i.itemCode}</td><td>${i.itemName}</td>
+                 <td>${i.quantity}</td><td>${i.price}</td>
+                 <td><button onclick="deleteItem('${i.itemCode}')">delete</button></td>
                  </tr>`;
     });
   }
@@ -166,7 +163,7 @@ function renderList(arr = items) {
   let totalVal = arr.reduce((sum, i) => sum + (i.quantity * i.price), 0);
 
   document.getElementById("summary").innerHTML=arr.length > 0
-      ? "total items: " + arr.length + "<br>total quantity: " + totalQty + "<br>total value: php " + totalVal
+      ? "total items: " + arr.length + "<br>total quantity: " + totalQty + "<br>total value: PHP " + totalVal
       : "no inventory data yet";
 }
 
