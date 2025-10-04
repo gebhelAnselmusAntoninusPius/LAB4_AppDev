@@ -163,8 +163,8 @@ function renderList(arr = items) {
   let totalVal = arr.reduce((sum, i) => sum + (i.quantity * i.price), 0);
 
   document.getElementById("summary").innerHTML=arr.length > 0
-      ? "total items: " + arr.length + "<br>total quantity: " + totalQty + "<br>total value: PHP " + totalVal
-      : "no inventory data yet";
+      ?"total items: " + arr.length + "<br>total quantity: " + totalQty + "<br>total value: PHP " + totalVal
+      :"no inventory data yet";
 }
 
 //cart object handles shopping cart logic

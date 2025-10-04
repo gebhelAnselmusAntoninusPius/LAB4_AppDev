@@ -6,6 +6,18 @@
 <body>
   <h2>Product Inventory Information System</h2>
 
+<hr>
+
+  <button onclick="filterItems()">Filter (Below Stock 10)</button>
+  <button onclick="sortByName()">Sort by Name</button>
+  <button onclick="sortByPrice()">Sort by Price</button>
+  <button onclick="resetList()">Reset</button>
+  <button onclick="toggleView()">Toggle View</button>
+  <br><br>
+
+  Search: <input type="text" id="searchBox" onkeyup="searchItems(this.value)">
+  <hr>
+
 <table border="1" cellpadding="5" style="width:100%; border-collapse:collapse;">
   <thead>
     <tr>
@@ -23,27 +35,16 @@
 
 <div id="summary">No inventory data yet.</div>
 
-
-  <hr>
-
-  <button onclick="filterItems()">Filter (Below Stock 10)</button>
-  <button onclick="sortByName()">Sort by Name</button>
-  <button onclick="sortByPrice()">Sort by Price</button>
-  <button onclick="resetList()">Reset</button>
-  <button onclick="toggleView()">Toggle View</button>
-  <br><br>
-
-  Search: <input type="text" id="searchBox" onkeyup="searchItems(this.value)">
-  <hr>
-
-  <form id="itemForm">
-    Item Code: <input type="text" id="itemCode" required><br><br>
-    Item Name: <input type="text" id="itemName" required><br><br>
-    Quantity:  <input type="text" id="quantity" required><br><br>
-    Price:     <input type="text" id="price" required><br><br>
+<hr>
+<div><form id="itemForm">
+    <input type="text" id="itemCode" placeholder="Item code" required><br><br>
+    <input type="text" id="itemName" placeholder="Item name" required><br><br>
+    <input type="text" id="quantity" placeholder="Quantity" required><br><br>
+    <input type="text" id="price" placeholder="Price" required><br><br>
     <button type="button" onclick="addItem()">Add Item</button>
     <button type="button" onclick="updateItemFromForm()">Update Item</button>
-  </form>
+  </form></div>
+ 
 
   <hr>
   <h2>Cart</h2>
