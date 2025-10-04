@@ -6,7 +6,7 @@ function addItem() {
   let qty = parseInt(document.getElementById("quantity").value);
   let price = parseFloat(document.getElementById("price").value);
 
-  if (!code || !name || isNaN(qty) || isNaN(price)) {
+  if (!code || !name || isNaN(qty) || isNaN(price)){
     alert("Please fill all fields");
     return;
   }
@@ -79,8 +79,10 @@ function sortByPrice() {
 }
 
 function resetList() {
-  renderList();
+  document.getElementById("searchBox").value = "";
+  renderList(items); // always show full list
 }
+
 
 function searchItems(keyword) {
   keyword = keyword.toLowerCase();
@@ -95,48 +97,55 @@ function searchItems(keyword) {
 let tableView = true; // start with table view
 
 function toggleView() {
-  tableView = !tableView;
-  renderList();
+  let listDiv = document.getElementById("list");
+  if (listDiv.dataset.view === "table") {
+    // switch to card view
+    listDiv.innerHTML = items.map(i => `
+      <div style="border:1px solid black; margin:5px; padding:5px;">
+        <strong>${i.itemName}</strong> (${i.itemCode})<br>
+        Qty: ${i.quantity}<br>
+        Price: PHP ${i.price}<br>
+        <button onclick="deleteItem('${i.itemCode}')">Delete</button>
+      </div>
+    `).join("");
+    listDiv.dataset.view = "card";
+  } else {
+    renderList(items); // back to table
+    listDiv.dataset.view = "table";
+  }
 }
 
 //render list make the table dynamic
 function renderList(arr = items) {
-  if (tableView) {
-    //Table view
-    let output = "<table border='1' cellpadding='5'><tr><th>Code</th><th>Name</th><th>Quantity</th><th>Price</th><th>Action</th></tr>";
+  let output = "";
+
+  if (arr.length === 0) {
+    output = `<tr><td colspan="5" style="text-align:center; color:gray;">No items in inventory</td></tr>`;
+  } else {
     arr.forEach(i => {
       let style = i.quantity === 0 ? " style='color:red;'" : "";
       output += `<tr${style}>
-                  <td>${i.itemCode}</td>
-                  <td>${i.itemName}</td>
-                  <td>${i.quantity}</td>
-                  <td>${i.price}</td>
-                  <td><button onclick="deleteItem('${i.itemCode}')">Delete</button></td>
+                   <td>${i.itemCode}</td>
+                   <td>${i.itemName}</td>
+                   <td>${i.quantity}</td>
+                   <td>${i.price}</td>
+                   <td><button onclick="deleteItem('${i.itemCode}')">Delete</button></td>
                  </tr>`;
     });
-    output += "</table>";
-    document.getElementById("list").innerHTML = output;
-  } else {
-    //card view
-    let output = "";
-    arr.forEach(i => {
-      let red = i.quantity === 0 ? " style='color:red;'" : "";
-      output += `<div ${red} style="border:1px solid black; margin:5px; padding:5px;">
-                   <strong>${i.itemName}</strong> (${i.itemCode})<br>
-                   Qty: ${i.quantity}<br>
-                   Price: PHP ${i.price}<br>
-                   <button onclick="deleteItem('${i.itemCode}')">Delete</button>
-                 </div>`;
-    });
-    document.getElementById("list").innerHTML = output;
   }
 
-  //summary of the products quantity and its prices
+  // Update table body only
+  document.getElementById("list").innerHTML = output;
+
+  // Update summary
   let totalQty = arr.reduce((sum, i) => sum + i.quantity, 0);
   let totalVal = arr.reduce((sum, i) => sum + (i.quantity * i.price), 0);
   document.getElementById("summary").innerHTML =
-    "Total Items: " + arr.length + "<br>Total Quantity: " + totalQty + "<br>Total Value: PHP " + totalVal;
+    arr.length > 0
+      ? "Total Items: " + arr.length + "<br>Total Quantity: " + totalQty + "<br>Total Value: PHP " + totalVal
+      : "No inventory data yet.";
 }
+
 
 let cart = {
   items: [],

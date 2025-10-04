@@ -6,14 +6,24 @@
 <body>
   <h2>Product Inventory Information System</h2>
 
-  <form id="itemForm">
-    Item Code: <input type="text" id="itemCode" required><br><br>
-    Item Name: <input type="text" id="itemName" required><br><br>
-    Quantity: <input type="number" id="quantity" required><br><br>
-    Price: <input type="number" id="price" required><br><br>
-    <button type="button" onclick="addItem()">Add Item</button>
-    <button type="button" onclick="updateItemFromForm()">Update Item</button>
-  </form>
+<table border="1" cellpadding="5" style="width:100%; border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="list">
+    <tr><td colspan="5" style="text-align:center; color:gray;">No items in inventory</td></tr>
+  </tbody>
+</table>
+
+<div id="summary">No inventory data yet.</div>
+
+
   <hr>
 
   <button onclick="filterItems()">Filter (Below Stock 10)</button>
@@ -26,8 +36,16 @@
   Search: <input type="text" id="searchBox" onkeyup="searchItems(this.value)">
   <hr>
 
-  <div id="list"></div>
-  <div id="summary"></div>
+  
+  <form id="itemForm">
+    Item Code: <input type="text" id="itemCode" required><br><br>
+    Item Name: <input type="text" id="itemName" required><br><br>
+    Quantity: <input type="number" id="quantity" required><br><br>
+    Price: <input type="number" id="price" required><br><br>
+    <button type="button" onclick="addItem()">Add Item</button>
+    <button type="button" onclick="updateItemFromForm()">Update Item</button>
+  </form>
+
 
   <hr>
   <h3>Cart</h3>
